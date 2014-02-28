@@ -23,7 +23,7 @@ Include the extension in your NetLogo model (at the top):
 
 ## What is it?
 
-This package contains the NetLogo **stats extension**, which provides NetLogo with a tables for holding data gathered during runs, a number of statistical procedures to use on those data, and access to a number of useful distributions including the normal, students t, binomial, beta, gamma, Chi squared and ... distributions. Documentation of the features and use of the **stats extension** is found in the accompanying manual.
+This package contains the NetLogo **stats extension**, which provides NetLogo with a tables for holding data gathered during runs, a number of statistical procedures to use on those data, and access to a number of useful distributions including the normal, students t, binomial, beta, gamma, Chi squared distributions. Documentation of the features and use of the **stats extension** is found in the accompanying manual.
 
 [back to top](#netlogo-stats-extension)
 
