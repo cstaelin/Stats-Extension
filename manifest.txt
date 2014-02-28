@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Extension-Name: stats
+Class-Manager: org.nlogo.extensions.stats.StatsExtension
+NetLogo-Extension-API-Version: 5.0
