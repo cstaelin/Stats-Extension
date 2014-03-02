@@ -29,24 +29,6 @@ public class TblPrims {
     }
 
     /* ---------------------------------------------------------------------- */
-   public static class DeleteDataTable extends DefaultReporter {
-        // Deletes the specified data table and returns a zero.
-
-        @Override
-        public Syntax getSyntax() {
-            return Syntax.reporterSyntax(new int[]{Syntax.WildcardType(),
-                        }, Syntax.NumberType());
-        }
-
-        public Object report(Argument args[], Context context)
-                throws ExtensionException, LogoException {
-
-            LogoStatsTbl tbl = StatsExtension.getTblFromArgument(args[0]);
-            tbl = null;
-            return 0;
-        }
-    }
-    
     /* ---------------------------------------------------------------------- */
     public static class NewTableFromRowList extends DefaultReporter {
         // Constructs and returns a new LogoStatsTbl with data loaded row by 

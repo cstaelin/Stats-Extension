@@ -4,6 +4,8 @@
  */
 package org.nlogo.extensions.stats;
 
+import org.nlogo.api.ExtensionException;
+
 public class LogoStatsTbl implements org.nlogo.api.ExtensionObject {
     // NetLogo data types defined in extensions must implement
     // the ExtensionObject interface, and thus the methods that come 
@@ -46,14 +48,17 @@ public class LogoStatsTbl implements org.nlogo.api.ExtensionObject {
     /* ====================================================================== */
     // Required by implementation of org.nlogo.api.ExtensionObject.
     /* ====================================================================== */
+    @Override
     public String getExtensionName() {
         return "stats";
     }
 
+    @Override
     public String getNLTypeName() {
         return "LogoStatsTbl";
     }
 
+    @Override
     public String dump(boolean readable, boolean exporting, boolean reference) {
         // Not yet implemented. Code sample commented out below.
         return null;
@@ -122,6 +127,7 @@ public class LogoStatsTbl implements org.nlogo.api.ExtensionObject {
 
     // A "deep" equals method.
     // THIS NEEDS TO BE CONSIDERABLY EXPANDED FOR OUR DATA STRUCTURE
+    @Override
     public boolean recursivelyEqual(Object o) {
         if (!(o instanceof LogoStatsTbl)) {
             return false;
@@ -416,7 +422,7 @@ public class LogoStatsTbl implements org.nlogo.api.ExtensionObject {
     // whose index is the first in the int[] var on all the other variables
     // listed in var.  It creates a matrix of observations to pass to the
     // regression routine, below.
-    public double[][] regress(int[] var) {
+    public double[][] regress(int[] var) throws ExtensionException {
         int v = var.length;
         int nobsUsed = (useObs == 0) ? nobs : useObs;
         nobsUsed = Math.min(nobsUsed, nobs);
@@ -466,7 +472,7 @@ public class LogoStatsTbl implements org.nlogo.api.ExtensionObject {
     // compound forecast, type = 2, continuous forecast.
     // If only one observation is used, set the constant to the observation
     // and the slope or growth rate to zero.
-    public double[][] forecast(int var, int type) {
+    public double[][] forecast(int var, int type) throws ExtensionException {
         int nobsUsed = (useObs == 0) ? nobs : useObs;
         nobsUsed = Math.min(nobsUsed, nobs);
         if (nobsUsed == 1) {
@@ -551,7 +557,8 @@ public class LogoStatsTbl implements org.nlogo.api.ExtensionObject {
     }
 
     /* ---------------------------------------------------------------------- */
-    private void regression(Jama.Matrix dat, boolean forecast) {
+    private void regression(Jama.Matrix dat, boolean forecast) 
+    throws ExtensionException {
         // This does the actual work of performing the regression and 
         // calculating the various regression and coefficient statistics.
 

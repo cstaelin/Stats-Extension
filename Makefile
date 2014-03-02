@@ -17,14 +17,14 @@ JAVAC=$(JAVA_HOME)/bin/javac
 
 SRCS=$(wildcard src/*.java)
 
-stats.zip: stats.jar stats.jar.pack.gz Jama-1.0.3.jar Jama-1.0.3.jar.pack.gz colt.jar colt.jar.pack.gz README.md license.md Makefile src manifest.txt
+stats.zip: stats.jar stats.jar.pack.gz Jama-1.0.3.jar Jama-1.0.3.jar.pack.gz colt.jar colt.jar.pack.gz README.md license.md Makefile src manifest.txt StatsExtension-v1.3.1.pdf
 	rm -rf stats
 	mkdir stats
-	cp -rp stats.jar stats.jar.pack.gz Jama-1.0.3.jar Jama-1.0.3.jar.pack.gz colt.jar colt.jar.pack.gz README.md license.md Makefile src manifest.txt stats
+	cp -rp stats.jar stats.jar.pack.gz Jama-1.0.3.jar Jama-1.0.3.jar.pack.gz colt.jar colt.jar.pack.gz README.md license.md Makefile src manifest.txt StatsExtension-v1.3.1.pdf stats
 	zip -rv stats.zip stats
 	rm -rf stats
 
-stats.jar stats.jar.pack.gz: $(SRCS) Jama-1.0.3.jar Jama-1.0.3.jar.pack.gz colt.jar colt.jar.pack.gz NetLogoLite.jar Makefile manifest.txt
+stats.jar stats.jar.pack.gz: $(SRCS) Jama-1.0.3.jar Jama-1.0.3.jar.pack.gz colt.jar colt.jar.pack.gz Makefile manifest.txt
 	mkdir -p classes
 	$(JAVAC) -g -encoding us-ascii -source 1.6 -target 1.6 -classpath $(NETLOGO)/NetLogoLite.jar$(COLON)Jama-1.0.3.jar$(COLON)colt.jar -d classes $(SRCS)
 	jar cmf manifest.txt stats.jar -C classes .

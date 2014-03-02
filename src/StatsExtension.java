@@ -66,8 +66,6 @@ public class StatsExtension
 
         primManager.addPrimitive("newtable", 
                 new TblPrims.NewTable());
-        primManager.addPrimitive("delete-table", 
-                new TblPrims.DeleteDataTable());
         primManager.addPrimitive("newtable-from-row-list",
                 new TblPrims.NewTableFromRowList());
         primManager.addPrimitive("add", 
