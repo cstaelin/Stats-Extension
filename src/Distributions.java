@@ -228,8 +228,8 @@ public class Distributions {
   /* ---------------------------------------------------------------------- */
   public static double IncompleteGamma(double a, double x)
           throws ExtensionException {
-    // Returns the Gamma function of the argument a to the 
-    // integration end point x.
+    // Returns the regularized integral of the Gamma function with argument
+    // a to the integration end point x.
     try {
       return Gamma.incompleteGamma(a, x);
     } catch (IllegalArgumentException ex) {
@@ -242,7 +242,7 @@ public class Distributions {
   /* ---------------------------------------------------------------------- */
   public static double IncompleteGammaComplement(double a, double x)
           throws ExtensionException {
-    // Returns the complemented incomplete Gamma function of the 
+    // Returns the complemented regularized incomplete Gamma function of the 
     // argument a and integration start point x.
     try {
       return Gamma.incompleteGammaComplement(a, x);
@@ -268,8 +268,8 @@ public class Distributions {
   /* ---------------------------------------------------------------------- */
   public static double IncompleteBeta(double a, double b, double x)
           throws ExtensionException {
-    // Returns the integral of the beta function with arguments a and b,
-    // from zero to x.
+    // Returns the regularized integral of the beta function with arguments
+    // a and b, from zero to x.
     try {
       return Gamma.incompleteBeta(a, b, x);
     } catch (IllegalArgumentException ex) {

@@ -553,7 +553,7 @@ public class DescripPrims {
   /* ---------------------------------------------------------------------- */
 
   public static class IncompleteGamma extends DefaultReporter {
-    // Returns the incomplete gamma function with parameter a to the 
+    // Returns the regularized incomplete gamma function with parameter a to the 
     // integration end point x.
 
     @Override
@@ -585,7 +585,7 @@ public class DescripPrims {
 
   /* ---------------------------------------------------------------------- */
   public static class IncompleteGammaComplement extends DefaultReporter {
-    // Returns the complement of the incomplete gamma function with 
+    // Returns the complement of the regularized incomplete gamma function with 
     // parameter a integration start point x.
 
     @Override
@@ -611,7 +611,7 @@ public class DescripPrims {
         throw new ExtensionException("The arguments to incompleteGamma"
                 + "Complement must be positive");
       }
-      return Distributions.IncompleteGamma(a, x);
+      return Distributions.IncompleteGammaComplement(a, x);
     }
   }
 
@@ -648,8 +648,8 @@ public class DescripPrims {
 
   /* ---------------------------------------------------------------------- */
   public static class IncompleteBeta extends DefaultReporter {
-    // Returns the integral of the beta function with arguments a and b,
-    // from zero to x.
+    // Returns the regularized integral of the beta function with 
+    // arguments a and b, from zero to x.
 
     @Override
     public Syntax getSyntax() {
