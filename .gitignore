@@ -2,6 +2,9 @@
 ## Eclipse
 #################
 
+# Project specific jar files (all will be included in the zip file)
+*.jar
+
 *.pydevproject
 .project
 .metadata
