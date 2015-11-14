@@ -150,6 +150,11 @@ to go
   output-print "beta:"
   output-print stats:beta 1 2
   output-print stats:beta 1 3
+  output-print stats:beta 86 85
+  output-print stats:bigBeta 86 85
+  output-print stats:beta 86 86
+  output-print stats:bigBeta 86 86
+  output-print stats:bigBeta 100 100
   output-print stats:incompleteBeta 1 2 0.5
   
   output-print ""
@@ -531,7 +536,7 @@ Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 
 @#$#@#$#@
-NetLogo 5.0.5
+NetLogo 5.2.0
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@

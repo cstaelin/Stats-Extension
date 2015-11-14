@@ -646,6 +646,38 @@ public class DescripPrims {
     }
   }
 
+   /* ---------------------------------------------------------------------- */
+  public static class BigBetaFunction extends DefaultReporter {
+    // Returns the value of the beta function with the arguments a and b.
+
+    @Override
+    public Syntax getSyntax() {
+      return Syntax.reporterSyntax(new int[]{Syntax.NumberType(),
+        Syntax.NumberType()}, Syntax.NumberType());
+    }
+
+    @Override
+    public Object report(Argument args[], Context context)
+            throws ExtensionException, LogoException {
+      double a;
+      double b;
+      try {
+        a = args[0].getDoubleValue();
+        b = args[1].getDoubleValue();
+      } catch (LogoException e) {
+        throw new ExtensionException(e.getMessage());
+      }
+
+      if (a <= 0.0 | b <= 0.0) {
+        // Argument must be positive.
+        throw new ExtensionException("The arguments to beta "
+                + "must be positive");
+      }
+      return Math.exp(Distributions.LogGamma(a) + Distributions.LogGamma(b)
+              - Distributions.LogGamma(a + b));
+    }
+  }
+
   /* ---------------------------------------------------------------------- */
   public static class IncompleteBeta extends DefaultReporter {
     // Returns the regularized integral of the beta function with 

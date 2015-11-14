@@ -1,4 +1,8 @@
 /*
+ * Stats extension, v. 1.4.0, October 12, 2015
+*/
+
+/*
  * This is the main class for the stats extension.  It defines the various
  * commands and reporters, and does some NetLogo housekeeping.
  *
@@ -10,15 +14,18 @@
  * for its use by other parties, and makes no guarantees, expressed or implied,
  * about its quality, reliability, or any other characteristic.
  * http://math.nist.gov/javanumerics/jama/#Background
- * colt.jar is used for the calculation of various statistics and distributions.
- * It is distributed by CERN. Copyright (c) 1999 CERN - European Organization 
- * for Nuclear Research.  Permission to use, copy, modify, distribute and 
+ *
+ * colt.jar, version 1.2.0 is used for the calculation of various statistics 
+ * and distributions. It is distributed by CERN. Copyright (c) 1999
+ * CERN - European Organization for Nuclear Research.  
+ * Permission to use, copy, modify, distribute and 
  * sell this software and its documentation for any purpose is hereby granted 
  * without fee, provided that the above copyright notice appear in all copies 
  * and that both that copyright notice and this permission notice appear in 
  * supporting documentation. CERN makes no representations about the 
  * suitability of this software for any purpose. It is provided "as is" 
  * without expressed or implied warranty.
+ * http://dst.lbl.gov/ACSSoftware/colt/
 */
 package org.nlogo.extensions.stats;
 
@@ -165,5 +172,7 @@ public class StatsExtension
                 new DescripPrims.BetaFunction());
         primManager.addPrimitive("incompleteBeta",
                 new DescripPrims.IncompleteBeta());
+        primManager.addPrimitive("bigBeta",
+                new DescripPrims.BigBetaFunction());
     }
 }

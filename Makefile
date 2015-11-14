@@ -17,11 +17,11 @@ JAVAC=$(JAVA_HOME)/bin/javac
 
 SRCS=$(wildcard src/*.java)
 
-StatsExtension-v1.3.1.zip: stats.jar stats.jar.pack.gz Jama-1.0.3.jar Jama-1.0.3.jar.pack.gz colt.jar colt.jar.pack.gz README.md license.md Makefile src manifest.txt StatsExtension-v1.3.1.pdf StatsExample.nlogo
+StatsExtension-v1.4.0.zip: stats.jar stats.jar.pack.gz Jama-1.0.3.jar Jama-1.0.3.jar.pack.gz colt.jar colt.jar.pack.gz README.md license.md Makefile src manifest.txt StatsExtension-v1.4.0.pdf StatsExample.nlogo
 	rm -rf stats
 	mkdir stats
-	cp -rp stats.jar stats.jar.pack.gz Jama-1.0.3.jar Jama-1.0.3.jar.pack.gz colt.jar colt.jar.pack.gz README.md license.md Makefile src manifest.txt StatsExtension-v1.3.1.pdf StatsExample.nlogo stats
-	zip -rv StatsExtension-v1.3.1.zip stats
+	cp -rp stats.jar stats.jar.pack.gz Jama-1.0.3.jar Jama-1.0.3.jar.pack.gz colt.jar colt.jar.pack.gz README.md license.md Makefile src manifest.txt StatsExtension-v1.4.0.pdf StatsExample.nlogo stats
+	zip -rv StatsExtension-v1.4.0.zip stats
 	rm -rf stats
 
 stats.jar stats.jar.pack.gz: $(SRCS) Jama-1.0.3.jar Jama-1.0.3.jar.pack.gz colt.jar colt.jar.pack.gz Makefile manifest.txt
