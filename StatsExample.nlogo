@@ -3,12 +3,12 @@ extensions [ stats ]
 to go
   clear-all
   random-seed 1234567
-  
+
   ; create observations on y = 10 + 2x1 - 3x2 + 4x3 - 5x4
   let tbl stats:newtable
   stats:set-names tbl ["v0" "v1" "v2" "v3" "v4" "v5"]
   output-print stats:get-names tbl
-  
+
   let nobs 100
   let i 0
   while [i < nobs] [
@@ -19,10 +19,10 @@ to go
     let x4 random-normal 8 1
     let y random-normal (10 + x0 + 2 * x1 - 3 * x2 + 4 * x3 - 5 * x4) 10
     stats:add tbl (list y x0 x1 x2 x3 x4)
-    
+
     set i i + 1
   ]
-  
+
   output-print "using the full data table, tbl:"
   output-print ""
   output-print "medians, means, stddevs:"
@@ -39,7 +39,7 @@ to go
   output-print stats:print-correlation tbl
   output-print stats:covariance tbl
   output-print stats:print-covariance tbl
-  
+
   output-print ""
   output-print "do it again without Bessel's correction"
   stats:use-Bessel? tbl false
@@ -57,23 +57,23 @@ to go
   output-print stats:print-correlation tbl
   output-print stats:covariance tbl
   output-print stats:print-covariance tbl
-  
-  
+
+
   output-print ""
   output-print "regress-all:"
   output-print stats:regress-all tbl
   output-print stats:get-rstats tbl
   output-print stats:get-rcstats tbl
-  
+
   output-print ""
-  output-print "create newtbl from tbl:"  
+  output-print "create newtbl from tbl:"
   let data-list stats:get-data-as-list tbl
   let name-list stats:get-names tbl
   let newtbl stats:newtable-from-row-list data-list
   stats:set-names newtbl name-list
   output-print stats:get-observations newtbl 5
-  
-  
+
+
   output-print ""
   output-print "regressions using 20 most recent observations in newtbl:"
   stats:use-most-recent newtbl 20
@@ -87,46 +87,53 @@ to go
   output-print stats:regress-on newtbl [1 2 0]
   output-print stats:get-rstats newtbl
   output-print stats:get-rcstats newtbl
-  
+
   output-print ""
   output-print "forecasts 6 periods out using tbl:"
   output-print stats:forecast-linear-growth-at tbl "v5" 6
   output-print stats:get-fparameters tbl
-  
+
   output-print stats:forecast-compound-growth-at tbl "v5" 6
   output-print stats:get-fparameters tbl
-  
+
   output-print stats:forecast-continuous-growth-at tbl "v5" 6
   output-print stats:get-fparameters tbl
 
   output-print ""
   output-print "quantiles and percentiles:"
-  output-print stats:quantile tbl "v5" 0.0  
+  output-print stats:quantile tbl "v5" 0.0
   output-print stats:quantile tbl "v5" 50.0
   output-print stats:quantile tbl "v5" 100.0
   output-print stats:quantiles tbl "v5" 4
   output-print stats:percentile tbl "v5" stats:quantile tbl "v5" 50.0
   output-print stats:quantiles tbl "v5" 1
-  
+
   output-print ""
   output-print "nobs & nobs-used in tbl & newtbl:"
   output-print stats:get-nobs tbl
   output-print stats:get-nobs-used tbl
   output-print stats:get-nobs newtbl
   output-print stats:get-nobs-used newtbl
-  
- 
+
+
   output-print ""
   output-print "normal:"
   output-print stats:normal 0 0 1
   output-print stats:normal-left 1 0 1
   output-print stats:normal-inverse (stats:normal-left 1 0 1) 0 1
-  
+
+  output-print ""
+  output-print "lognormal:"
+  output-print stats:lognormal 2 0 1
+  output-print stats:lognormal-left 2 0 1
+  output-print stats:lognormal-inverse (stats:lognormal-left 2 0 1) 0 1
+  output-print stats:lognormal-inverse 0.50 0 1
+
   output-print ""
   output-print "student:"
   output-print stats:student-left 1.5 25
   output-print stats:student-inverse (stats:student-left 1.5 25) 25
-  
+
   output-print ""
   output-print "binomial:"
   output-print stats:binomial-coefficient 10 5
@@ -135,17 +142,17 @@ to go
   output-print stats:binomial-sum-to 10 5 0.5
   output-print stats:binomial-sum-above 10 5 0.5
   let area 0
-  foreach n-values 11 [?] [
-    let prob stats:binomial-probability 10 ? 0.5
+  foreach range 11 [ n ->
+    let prob stats:binomial-probability 10 n 0.5
     set area area + prob
-    output-print (list ? prob area)
+    output-print (list n prob area)
   ]
 
   output-print ""
   output-print "chi-square:"
   output-print stats:chi-square-left 20 25
   output-print stats:chi-square-right 20 25
-  
+
   output-print ""
   output-print "beta:"
   output-print stats:beta 1 2
@@ -156,7 +163,7 @@ to go
   output-print stats:bigBeta 86 86
   output-print stats:bigBeta 100 100
   output-print stats:incompleteBeta 1 2 0.5
-  
+
   output-print ""
   let a 10
   output-print "gamma:"
@@ -165,9 +172,9 @@ to go
   output-print stats:logGamma a
   output-print stats:incompleteGamma a 10.0
   output-print stats:incompleteGammaComplement a 10.0
-  
+
   output-print ""
-  output-print "newtbl:"  
+  output-print "newtbl:"
   output-print stats:print-data newtbl
   output-print ""
   output-print "tbl trimmed to 20 obsv:"
@@ -175,16 +182,16 @@ to go
   output-print stats:print-data tbl
 
   set tbl 0
-  
+
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
 25
 100
-270
-311
-3
-3
+213
+289
+-1
+-1
 25.7143
 1
 10
@@ -534,9 +541,8 @@ false
 0
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
-
 @#$#@#$#@
-NetLogo 5.2.0
+NetLogo 6.0.1
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
@@ -552,7 +558,6 @@ true
 0
 Line -7500403 true 150 150 90 180
 Line -7500403 true 150 150 210 180
-
 @#$#@#$#@
 0
 @#$#@#$#@
