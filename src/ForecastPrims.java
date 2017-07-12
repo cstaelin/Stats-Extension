@@ -3,17 +3,14 @@
  */
 package org.nlogo.extensions.stats;
 
-import org.nlogo.api.LogoException;
-import org.nlogo.api.ExtensionException;
-import org.nlogo.api.Argument;
-import org.nlogo.api.Syntax;
-import org.nlogo.api.Context;
-import org.nlogo.api.DefaultReporter;
+import org.nlogo.api.*;
+import org.nlogo.core.Syntax;
+import org.nlogo.core.SyntaxJ;
 
 public class ForecastPrims {
 
     /* ---------------------------------------------------------------------- */
-    public static class ForecastLinearTrend extends DefaultReporter {
+    public static class ForecastLinearTrend implements Reporter {
         /*
          * Computes the linear growth equation for a single variable against 
          * time, and then returns a forecast of that variable T periods
@@ -33,11 +30,12 @@ public class ForecastPrims {
 
         @Override
         public Syntax getSyntax() {
-            return Syntax.reporterSyntax(new int[]{Syntax.WildcardType(),
+            return SyntaxJ.reporterSyntax(new int[]{Syntax.WildcardType(),
                         Syntax.WildcardType(), Syntax.NumberType()},
                     Syntax.NumberType());
         }
 
+        @Override
         public Object report(Argument args[], Context context)
                 throws ExtensionException, LogoException {
 
@@ -55,7 +53,7 @@ public class ForecastPrims {
     }
 
     /* ---------------------------------------------------------------------- */
-    public static class ForecastCompoundTrend extends DefaultReporter {
+    public static class ForecastCompoundTrend implements Reporter {
         /*
          * Computes a compound growth rate for a single variable against 
          * time, and then returns a forecast of that variable T periods
@@ -81,11 +79,12 @@ public class ForecastPrims {
 
         @Override
         public Syntax getSyntax() {
-            return Syntax.reporterSyntax(new int[]{Syntax.WildcardType(),
+            return SyntaxJ.reporterSyntax(new int[]{Syntax.WildcardType(),
                         Syntax.WildcardType(), Syntax.NumberType()},
                     Syntax.NumberType());
         }
 
+        @Override
         public Object report(Argument args[], Context context)
                 throws ExtensionException, LogoException {
 
@@ -103,7 +102,7 @@ public class ForecastPrims {
     }
 
     /* ---------------------------------------------------------------------- */
-    public static class ForecastContinuousTrend extends DefaultReporter {
+    public static class ForecastContinuousTrend implements Reporter {
         /*
          * Computes a continuous growth rate for a single variable against 
          * time, and then returns a forecast of that variable T periods
@@ -131,11 +130,12 @@ public class ForecastPrims {
 
         @Override
         public Syntax getSyntax() {
-            return Syntax.reporterSyntax(new int[]{Syntax.WildcardType(),
+            return SyntaxJ.reporterSyntax(new int[]{Syntax.WildcardType(),
                         Syntax.WildcardType(), Syntax.NumberType()},
                     Syntax.NumberType());
         }
 
+        @Override
         public Object report(Argument args[], Context context)
                 throws ExtensionException, LogoException {
 
@@ -153,7 +153,7 @@ public class ForecastPrims {
     }
 
     /* ---------------------------------------------------------------------- */
-    public static class GetForecastParameters extends DefaultReporter {
+    public static class GetForecastParameters implements Reporter {
         // Returns the parameters of the most recent forecast as a 
         // 2-element list. The first element is the constant and the second
         // the slope (for linear) or the rate of growth, as appropriate to 
@@ -161,10 +161,11 @@ public class ForecastPrims {
 
         @Override
         public Syntax getSyntax() {
-            return Syntax.reporterSyntax(new int[]{Syntax.WildcardType()},
+            return SyntaxJ.reporterSyntax(new int[]{Syntax.WildcardType()},
                     Syntax.ListType());
         }
 
+        @Override
         public Object report(Argument args[], Context context)
                 throws ExtensionException, LogoException {
 

@@ -4,18 +4,14 @@
  */
 package org.nlogo.extensions.stats;
 
-import org.nlogo.api.LogoException;
-import org.nlogo.api.ExtensionException;
-import org.nlogo.api.Argument;
-import org.nlogo.api.Syntax;
-import org.nlogo.api.Context;
-import org.nlogo.api.LogoList;
-import org.nlogo.api.LogoListBuilder;
-import org.nlogo.api.DefaultReporter;
+import org.nlogo.api.*;
+import org.nlogo.core.Syntax;
+import org.nlogo.core.SyntaxJ;
+import org.nlogo.core.LogoList;
 
 public class RegressionPrims {
 
-    public static class RegressAll extends DefaultReporter {
+    public static class RegressAll implements Reporter {
         /*
          * This reporter sets up and solves a linear OLS regression.
          * The input is LogoStatsTbl, with the first column being the
@@ -33,10 +29,11 @@ public class RegressionPrims {
 
         @Override
         public Syntax getSyntax() {
-            return Syntax.reporterSyntax(new int[]{Syntax.WildcardType()},
+            return SyntaxJ.reporterSyntax(new int[]{Syntax.WildcardType()},
                     Syntax.ListType());
         }
 
+        @Override
         public Object report(Argument args[], Context context)
                 throws ExtensionException, LogoException {
 
@@ -55,7 +52,7 @@ public class RegressionPrims {
     }
 
     /* ---------------------------------------------------------------------- */
-    public static class RegressOn extends DefaultReporter {
+    public static class RegressOn implements Reporter {
         /*
          * This reporter sets up and solves a linear OLS regression.
          * The input is LogoStatsTbl and a simple list of variable 
@@ -72,10 +69,11 @@ public class RegressionPrims {
 
         @Override
         public Syntax getSyntax() {
-            return Syntax.reporterSyntax(new int[]{Syntax.WildcardType(),
+            return SyntaxJ.reporterSyntax(new int[]{Syntax.WildcardType(),
                         Syntax.ListType()}, Syntax.ListType());
         }
 
+        @Override
         public Object report(Argument args[], Context context)
                 throws ExtensionException, LogoException {
 
@@ -127,15 +125,16 @@ public class RegressionPrims {
     }
 
     /* ---------------------------------------------------------------------- */
-    public static class GetRegressionStats extends DefaultReporter {
+    public static class GetRegressionStats implements Reporter {
         // Returns the latest regression statistics.
 
         @Override
         public Syntax getSyntax() {
-            return Syntax.reporterSyntax(new int[]{Syntax.WildcardType()},
+            return SyntaxJ.reporterSyntax(new int[]{Syntax.WildcardType()},
                     Syntax.ListType());
         }
 
+        @Override
         public Object report(Argument args[], Context context)
                 throws ExtensionException, LogoException {
 
@@ -150,16 +149,17 @@ public class RegressionPrims {
     }
 
     /* ---------------------------------------------------------------------- */
-    public static class GetCoefficientStats extends DefaultReporter {
+    public static class GetCoefficientStats implements Reporter {
         // returns the t statistics p values & std errors for the regression
         // coefficients in a nested list, p values first, then t's, then se's.
 
         @Override
         public Syntax getSyntax() {
-            return Syntax.reporterSyntax(new int[]{Syntax.WildcardType()},
+            return SyntaxJ.reporterSyntax(new int[]{Syntax.WildcardType()},
                     Syntax.ListType());
         }
 
+        @Override
         public Object report(Argument args[], Context context)
                 throws ExtensionException, LogoException {
 

@@ -1,8 +1,8 @@
 /*
- * Stats extension, v. 1.4.0, October 12, 2015
-*/
+ * Stats extension, v.2.0.0 , July 2017
+ * Versions 2.0.0 and above are compiled against NetLogo V6 and Java 1.8.
+ *//*
 
-/*
  * This is the main class for the stats extension.  It defines the various
  * commands and reporters, and does some NetLogo housekeeping.
  *
@@ -26,153 +26,170 @@
  * suitability of this software for any purpose. It is provided "as is" 
  * without expressed or implied warranty.
  * http://dst.lbl.gov/ACSSoftware/colt/
-*/
+ */
 package org.nlogo.extensions.stats;
 
-import org.nlogo.api.LogoException;
-import org.nlogo.api.ExtensionException;
-import org.nlogo.api.Argument;
+import org.nlogo.api.*;
 
 public class StatsExtension
         extends org.nlogo.api.DefaultClassManager {
 
-    @Override
-    public java.util.List<String> additionalJars() {
-        java.util.List<String> list = new java.util.ArrayList<String>();
-        list.add("Jama-1.0.3.jar");
-        list.add("colt.jar");
-        return list;
+  // These class variables are used to keep track of all the LogoStatsTbls 
+  // are created. They are manipulated by the static addLogoStatsTbl method.
+  private static final java.util.WeakHashMap<LogoStatsTbl, Long> LogoStatsTbls =
+          new java.util.WeakHashMap<>();
+  private static long next = -1;
+
+  public static long addLogoStatsTbl(LogoStatsTbl tbl) {
+    StatsExtension.next++;
+    StatsExtension.LogoStatsTbls.put(tbl, next);
+    return next;
+  }
+  public static long addLogoStatsTbl(LogoStatsTbl tbl, long id) {
+    StatsExtension.LogoStatsTbls.put(tbl, id);
+    next = StrictMath.max(StatsExtension.next, id);
+    return id;
+  }
+  
+  public static LogoStatsTbl getTblFromArgument(Argument arg)
+          throws ExtensionException, LogoException {
+    // A convenience method to extract a LogoStatsTbl object from an 
+    // Argument. It serves a similar purpose to args[x].getString(), 
+    // or args[x].getList() and throws an error if the argument is 
+    // not a LogoStatsTbl.
+    Object obj = arg.get();
+    if (!(obj instanceof LogoStatsTbl)) {
+      throw new org.nlogo.api.ExtensionException("A StatsTable was "
+              + "expected but got this instead: "
+              + org.nlogo.api.Dump.logoObject(obj));
     }
-    // the WeakHashMap here may seem a bit odd, but it is apparently 
-    // the easiest way to handle things.
-    // for explanation, see the comment in ArrayExtension.java in the 
-    // Array extension.
-    public static final java.util.WeakHashMap<LogoStatsTbl, Long> LogoStatsTbls = 
-            new java.util.WeakHashMap<LogoStatsTbl, Long>();
-    public static long next = 0;
+    return (LogoStatsTbl) obj;
+  }
 
-    public static LogoStatsTbl getTblFromArgument(Argument arg)
-            throws ExtensionException, LogoException {
-        // A convenience method to extract a LogoStatsTbl object from an 
-        // Argument. It serves a similar purpose to args[x].getString(), 
-        // or args[x].getList() and throws an error if the argument is 
-        // not a LogoStatsTbl.
-        Object obj = arg.get();
-        if (!(obj instanceof LogoStatsTbl)) {
-            throw new org.nlogo.api.ExtensionException("A StatsTable was "
-                    + "expected but got this instead: "
-                    + org.nlogo.api.Dump.logoObject(obj));
-        }
-        return (LogoStatsTbl) obj;
-    }
+  // This instance method is required by org.nlogo.api.DefaultClassManager and 
+  // lists the additional jar files required by this extension.
+  @Override
+  public java.util.List<String> additionalJars() {
+    java.util.List<String> list = new java.util.ArrayList<>();
+    list.add("Jama-1.0.3.jar");
+    list.add("colt.jar");
+    return list;
+  }
 
-    /* ********************************************************************** */
-    // Define the extension primitives.
-    /* ********************************************************************** */
-    public void load(org.nlogo.api.PrimitiveManager primManager) {
+  // This instance method is required by org.nlogo.api.DefaultClassManager and 
+  // defines the extension primitives.
+  @Override
+  public void load(org.nlogo.api.PrimitiveManager primManager) {
 
-        primManager.addPrimitive("newtable", 
-                new TblPrims.NewTable());
-        primManager.addPrimitive("newtable-from-row-list",
-                new TblPrims.NewTableFromRowList());
-        primManager.addPrimitive("add", 
-                new TblPrims.AddNewRow());
-        primManager.addPrimitive("get-data-as-list",
-                new TblPrims.GetDataAsNestedList());
-        primManager.addPrimitive("get-observations",
-                new TblPrims.GetColumnAsSimpleList());
-        primManager.addPrimitive("get-nobs", 
-                new TblPrims.GetNObs());
-        primManager.addPrimitive("get-nobs-used", 
-                new TblPrims.GetNObsUsed());
-        primManager.addPrimitive("set-names", 
-                new TblPrims.SetNames());
-        primManager.addPrimitive("get-names", 
-                new TblPrims.GetNames());
-        primManager.addPrimitive("use-most-recent", 
-                new TblPrims.SetObsUsed());
-        primManager.addPrimitive("trim-data", 
-                new TblPrims.TrimDataTable());
-        primManager.addPrimitive("use-Bessel?",
-                new CorrelPrims.UseBesselCorrection());
+    primManager.addPrimitive("newtable",
+            new TblPrims.NewTable());
+    primManager.addPrimitive("newtable-from-row-list",
+            new TblPrims.NewTableFromRowList());
+    primManager.addPrimitive("add",
+            new TblPrims.AddNewRow());
+    primManager.addPrimitive("get-data-as-list",
+            new TblPrims.GetDataAsNestedList());
+    primManager.addPrimitive("get-observations",
+            new TblPrims.GetColumnAsSimpleList());
+    primManager.addPrimitive("get-nobs",
+            new TblPrims.GetNObs());
+    primManager.addPrimitive("get-nobs-used",
+            new TblPrims.GetNObsUsed());
+    primManager.addPrimitive("set-names",
+            new TblPrims.SetNames());
+    primManager.addPrimitive("get-names",
+            new TblPrims.GetNames());
+    primManager.addPrimitive("use-most-recent",
+            new TblPrims.SetObsUsed());
+    primManager.addPrimitive("trim-data",
+            new TblPrims.TrimDataTable());
+    primManager.addPrimitive("use-Bessel?",
+            new CorrelPrims.UseBesselCorrection());
 
-        primManager.addPrimitive("correlation",
-                new CorrelPrims.CorrelationMatrix());
-        primManager.addPrimitive("covariance",
-                new CorrelPrims.VarCovarMatrix());
+    primManager.addPrimitive("correlation",
+            new CorrelPrims.CorrelationMatrix());
+    primManager.addPrimitive("covariance",
+            new CorrelPrims.VarCovarMatrix());
 
-        primManager.addPrimitive("regress-all",
-                new RegressionPrims.RegressAll());
-        primManager.addPrimitive("regress-on",
-                new RegressionPrims.RegressOn());
-        primManager.addPrimitive("get-rstats",
-                new RegressionPrims.GetRegressionStats());
-        primManager.addPrimitive("get-rcstats",
-                new RegressionPrims.GetCoefficientStats());
+    primManager.addPrimitive("regress-all",
+            new RegressionPrims.RegressAll());
+    primManager.addPrimitive("regress-on",
+            new RegressionPrims.RegressOn());
+    primManager.addPrimitive("get-rstats",
+            new RegressionPrims.GetRegressionStats());
+    primManager.addPrimitive("get-rcstats",
+            new RegressionPrims.GetCoefficientStats());
 
-        primManager.addPrimitive("print-data",
-                new PrintPrims.ConvertDataToString());
-        primManager.addPrimitive("print-covariance",
-                new PrintPrims.ConvertCovarToString());
-        primManager.addPrimitive("print-correlation",
-                new PrintPrims.ConvertCorrelToString());
+    primManager.addPrimitive("print-data",
+            new PrintPrims.ConvertDataToString());
+    primManager.addPrimitive("print-covariance",
+            new PrintPrims.ConvertCovarToString());
+    primManager.addPrimitive("print-correlation",
+            new PrintPrims.ConvertCorrelToString());
 
-        primManager.addPrimitive("forecast-linear-growth-at",
-                new ForecastPrims.ForecastLinearTrend());
-        primManager.addPrimitive("forecast-compound-growth-at",
-                new ForecastPrims.ForecastCompoundTrend());
-        primManager.addPrimitive("forecast-continuous-growth-at",
-                new ForecastPrims.ForecastContinuousTrend());
-        primManager.addPrimitive("get-fparameters",
-                new ForecastPrims.GetForecastParameters());
+    primManager.addPrimitive("forecast-linear-growth-at",
+            new ForecastPrims.ForecastLinearTrend());
+    primManager.addPrimitive("forecast-compound-growth-at",
+            new ForecastPrims.ForecastCompoundTrend());
+    primManager.addPrimitive("forecast-continuous-growth-at",
+            new ForecastPrims.ForecastContinuousTrend());
+    primManager.addPrimitive("get-fparameters",
+            new ForecastPrims.GetForecastParameters());
 
-        primManager.addPrimitive("means", new DescripPrims.GetMeans());
-        primManager.addPrimitive("medians", new DescripPrims.GetMedians());
-        primManager.addPrimitive("stddevs", new DescripPrims.GetStdDevs());
+    primManager.addPrimitive("means", new DescripPrims.GetMeans());
+    primManager.addPrimitive("medians", new DescripPrims.GetMedians());
+    primManager.addPrimitive("stddevs", new DescripPrims.GetStdDevs());
 
-        primManager.addPrimitive("quantile", new DescripPrims.Quantile());
-        primManager.addPrimitive("quantiles", new DescripPrims.Quantiles());
-        primManager.addPrimitive("percentile", new DescripPrims.Percentile());
+    primManager.addPrimitive("quantile", new DescripPrims.Quantile());
+    primManager.addPrimitive("quantiles", new DescripPrims.Quantiles());
+    primManager.addPrimitive("percentile", new DescripPrims.Percentile());
 
-        primManager.addPrimitive("normal",
-                new DescripPrims.NormalDensity());
-        primManager.addPrimitive("normal-left",
-                new DescripPrims.NormalArea());
-        primManager.addPrimitive("normal-inverse",
-                new DescripPrims.NormalInverse());
+    primManager.addPrimitive("normal",
+            new DescripPrims.NormalDensity());
+    primManager.addPrimitive("normal-left",
+            new DescripPrims.NormalArea());
+    primManager.addPrimitive("normal-inverse",
+            new DescripPrims.NormalInverse());
 
-        primManager.addPrimitive("student-left",
-                new DescripPrims.StudentArea());
-        primManager.addPrimitive("student-inverse",
-                new DescripPrims.StudentInverse());
+    primManager.addPrimitive("lognormal",
+            new DescripPrims.PDFLogNormal());
+    primManager.addPrimitive("lognormal-left",
+            new DescripPrims.CDFLogNormal());
+    primManager.addPrimitive("lognormal-inverse",
+            new DescripPrims.CDFInverseLogNormal());
 
-        primManager.addPrimitive("binomial-coefficient",
-                new DescripPrims.BinomialCoeff());
-        primManager.addPrimitive("binomial-probability",
-                new DescripPrims.BinomialProbibility());
-        primManager.addPrimitive("binomial-sum-to",
-                new DescripPrims.BinomialThroughK());
-        primManager.addPrimitive("binomial-sum-above",
-                new DescripPrims.BinomialComplemented());
+    primManager.addPrimitive("student-left",
+            new DescripPrims.StudentArea());
+    primManager.addPrimitive("student-inverse",
+            new DescripPrims.StudentInverse());
 
-        primManager.addPrimitive("chi-square-left",
-                new DescripPrims.ChiSquare());
-        primManager.addPrimitive("chi-square-right",
-                new DescripPrims.ChiSquareComplemented());
-        
-        primManager.addPrimitive("gamma", 
-                new DescripPrims.GammaFunction());
-        primManager.addPrimitive("logGamma", 
-                new DescripPrims.LogGammaFunction());
-        primManager.addPrimitive("incompleteGamma", 
-                new DescripPrims.IncompleteGamma());
-        primManager.addPrimitive("incompleteGammaComplement", 
-                new DescripPrims.IncompleteGammaComplement());
-        primManager.addPrimitive("beta",
-                new DescripPrims.BetaFunction());
-        primManager.addPrimitive("incompleteBeta",
-                new DescripPrims.IncompleteBeta());
-        primManager.addPrimitive("bigBeta",
-                new DescripPrims.BigBetaFunction());
-    }
+    primManager.addPrimitive("binomial-coefficient",
+            new DescripPrims.BinomialCoeff());
+    primManager.addPrimitive("binomial-probability",
+            new DescripPrims.BinomialProbibility());
+    primManager.addPrimitive("binomial-sum-to",
+            new DescripPrims.BinomialThroughK());
+    primManager.addPrimitive("binomial-sum-above",
+            new DescripPrims.BinomialComplemented());
+
+    primManager.addPrimitive("chi-square-left",
+            new DescripPrims.ChiSquare());
+    primManager.addPrimitive("chi-square-right",
+            new DescripPrims.ChiSquareComplemented());
+
+    primManager.addPrimitive("gamma",
+            new DescripPrims.GammaFunction());
+    primManager.addPrimitive("logGamma",
+            new DescripPrims.LogGammaFunction());
+    primManager.addPrimitive("incompleteGamma",
+            new DescripPrims.IncompleteGamma());
+    primManager.addPrimitive("incompleteGammaComplement",
+            new DescripPrims.IncompleteGammaComplement());
+    primManager.addPrimitive("beta",
+            new DescripPrims.BetaFunction());
+    primManager.addPrimitive("incompleteBeta",
+            new DescripPrims.IncompleteBeta());
+    primManager.addPrimitive("bigBeta",
+            new DescripPrims.BigBetaFunction());
+  }
 }
