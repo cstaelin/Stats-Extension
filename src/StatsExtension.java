@@ -1,6 +1,6 @@
 /*
- * Stats extension, v.2.0.0 , July 2017
- * Versions 2.0.0 and above are compiled against NetLogo V6 and Java 1.8.
+ * Stats extension, v.2.1.0 , May 2019
+ * Versions 2.1.0 and above are compiled against NetLogo V6.1 and Java 1.8.
  *//*
 
  * This is the main class for the stats extension.  It defines the various
