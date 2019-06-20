@@ -127,7 +127,7 @@ public class DescripPrims {
         throw new ExtensionException(e.getMessage());
       }
       if (n < 0) {
-        throw new ExtensionException("The number of quantiles must"
+        throw new ExtensionException("The number of quantiles must be"
                 + " greater or equal to zero.");
       }
       double incr = 1.0 / n;
@@ -799,6 +799,13 @@ public class DescripPrims {
         s = args[2].getDoubleValue();
       } catch (LogoException e) {
         throw new ExtensionException(e.getMessage());
+      }
+      if (a <= 0.0 ) {
+        return 0.0;
+      }
+      if (a >= 1.0) {
+        throw new ExtensionException("The area parameter in lognormal-inverse "
+                + " must be less than 1.0.");
       }
       return Math.exp(m + Distributions.getNormalInverse(a, 0, 1) * s);
     }

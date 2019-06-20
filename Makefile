@@ -28,10 +28,10 @@ NETLOGO_JAR := "$(shell find "$(NETLOGO)"/app -name netlogo-*.jar)"
 JAVAC := "$(JAVA_HOME)/bin/javac"
 SRCS := $(wildcard src/*.java)
 
-StatsExtension.zip: stats.jar Jama-1.0.3.jar colt.jar README.md license.md Makefile src manifest.txt StatsExtension-v2.1.pdf StatsExample.nlogo
+StatsExtension.zip: stats.jar Jama-1.0.3.jar colt.jar README.md license.md Makefile src manifest.txt StatsExtension-v2.1.1.pdf StatsExample.nlogo
 	rm -rf stats
 	mkdir stats
-	cp -rp stats.jar Jama-1.0.3.jar colt.jar README.md license.md Makefile src manifest.txt StatsExtension-v2.1.pdf StatsExample.nlogo stats
+	cp -rp stats.jar Jama-1.0.3.jar colt.jar README.md license.md Makefile src manifest.txt StatsExtension-v2.1.1.pdf StatsExample.nlogo stats
 	zip -rv StatsExtension.zip stats
 	rm -rf stats
 

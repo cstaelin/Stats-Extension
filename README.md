@@ -29,7 +29,7 @@ This package contains the NetLogo **stats extension**, which provides NetLogo wi
 
 ## Installation
 
-First, [download the latest version of the extension](https://github.com/cstaelin/Stats-Extension/releases). Note that the latest version (2.1.0) of this extension was compiled against NetLogo 6.1. If you are using NetLogo version 6.0 you should downloard stats version 2.0.0, and if you are using one of the NetLogo 5 versions you should download stats version 1.4.0.
+First, [download the latest version of the extension](https://github.com/cstaelin/Stats-Extension/releases). Note that the latest version (2.1.1) of this extension was compiled against NetLogo 6.1. If you are using NetLogo version 6.0 you should downloard stats version 2.0.0, and if you are using one of the NetLogo 5 versions you should download stats version 1.4.0.
 
 Unzip the archive, rename the extracted directory to **stats**, and move the **stats** directory to the **extensions** directory inside your NetLogo application folder. The NetLogo application will normally be in the Applications folder on the Mac, or under C:\Program Files on Windows, and the **extensions** directory is in the **app** subdirectory of the NetLogo application.  Or you can place the pathdir directory in the same directory holding the NetLogo model in which you want to use this extension.
 

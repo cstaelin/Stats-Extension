@@ -1,5 +1,5 @@
 /*
- * Stats extension, v.2.1.0 , May 2019
+ * Stats extension, v.2.1.1 , June 2019
  * Versions 2.1.0 and above are compiled against NetLogo V6.1 and Java 1.8.
  *//*
 

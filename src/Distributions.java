@@ -79,12 +79,17 @@ public class Distributions {
   }
 
   /* ---------------------------------------------------------------------- */
-  public static double getStudentTInverse(double x, int df)
+  public static double getStudentTInverse(double area, int df)
           throws ExtensionException {
     // Returns the value, t, for which the area under the Student-t 
     // probability density function (integrated from minus infinity to t) 
-    // is equal to x.
-    double a = 2.0 * (1.0 - x);
+    // is equal to area.
+    if (area <= 0.0 || area >= 1.0) {
+      throw new ExtensionException("The area parameter in student-inverse "
+              + " must be greater than 0.0 and less than 1.0.");
+    }
+    double a = 2.0 * (1.0 - area);
+
     try {
       return Probability.studentTInverse(a, df);
     } catch (IllegalArgumentException | ArithmeticException ex) {
@@ -99,7 +104,12 @@ public class Distributions {
     // standard deviation, to the left of which lies the given area.
     // normal.Inverse returns the value in terms of standard deviations
     // from the mean, so we need to adjust it for the given mean and 
-    // standard deviation.
+    // standard deviation. Note that the area must be strictly greater than
+    // zero and strictly less than 1.0.
+    if (area <= 0.0 || area >= 1.0) {
+      throw new ExtensionException("The area parameter in normal-inverse "
+      + " must be greater than 0.0 and less than 1.0.");
+    }
     try {
       double x = Probability.normalInverse(area);
       return (x + mean) * sd;
