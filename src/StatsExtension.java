@@ -1,8 +1,9 @@
 /*
- * Stats extension, v.2.1.1 , June 2019
- * Versions 2.1.0 and above are compiled against NetLogo V6.1 and Java 1.8.
- *//*
+ * Stats extension, v.3.0.1 , July 2025
+ * Versions 3 is compiled against NetLogo V7.0.0.
+ */
 
+/*
  * This is the main class for the stats extension.  It defines the various
  * commands and reporters, and does some NetLogo housekeeping.
  *
@@ -26,7 +27,13 @@
  * suitability of this software for any purpose. It is provided "as is" 
  * without expressed or implied warranty.
  * http://dst.lbl.gov/ACSSoftware/colt/
+ *
+ * In addition, this extension requires two NetLogo jar files: 
+ * netlogo-7.x.x.jar, where the x's refer to the current subversion numbers,
+ * and scala-library-2.13.16.jar.  Both jar files are found in the /app subdirectory
+ * of the NetLogo installation.
  */
+
 package org.nlogo.extensions.stats;
 
 import org.nlogo.api.*;
@@ -35,7 +42,8 @@ public class StatsExtension
         extends org.nlogo.api.DefaultClassManager {
 
   // These class variables are used to keep track of all the LogoStatsTbls 
-  // are created. They are manipulated by the static addLogoStatsTbl method.
+  // that are created. They are manipulated by the static addLogoStatsTbl 
+  //  method.
   private static final java.util.WeakHashMap<LogoStatsTbl, Long> LogoStatsTbls =
           new java.util.WeakHashMap<>();
   private static long next = -1;
@@ -64,16 +72,6 @@ public class StatsExtension
               + org.nlogo.api.Dump.logoObject(obj));
     }
     return (LogoStatsTbl) obj;
-  }
-
-  // This instance method is required by org.nlogo.api.DefaultClassManager and 
-  // lists the additional jar files required by this extension.
-  @Override
-  public java.util.List<String> additionalJars() {
-    java.util.List<String> list = new java.util.ArrayList<>();
-    list.add("Jama-1.0.3.jar");
-    list.add("colt.jar");
-    return list;
   }
 
   // This instance method is required by org.nlogo.api.DefaultClassManager and 

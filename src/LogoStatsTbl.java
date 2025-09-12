@@ -143,7 +143,7 @@ public class LogoStatsTbl implements org.nlogo.core.ExtensionObject {
 
 
   /* ====================================================================== */
-  // These methods are used by import- and export-world but, since rougue 
+  // These methods are used by import- and export-world but, since rogue 
   // data elements like these are not supported by import- and export-world
   // even when defined, we've not done anything to implement them properly.
   
